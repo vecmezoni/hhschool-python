@@ -1,5 +1,7 @@
+import inspect
+
 def curry(function, *args, **kwargs):
-	if (len(args) + len(kwargs)) >= function.__code__.co_argcount:
+	if (len(args) + len(kwargs)) >= len(inspect.getargspec(function)[0]):
 		return function(*args, **kwargs)
 	return lambda *x, **y: curry(function, *(args + x), **dict(kwargs, **y))
 
