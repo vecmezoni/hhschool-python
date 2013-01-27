@@ -16,12 +16,10 @@ def ireduce(function, iterable, initializer = None):
 		except StopIteration:
 			raise TypeError('ireduce() of empty sequence with no initial value')
 	accum_value = initializer
-	flag = False
+	yield accum_value
 	for x in it:
 		accum_value = function(accum_value, x)
 		flag = True
-		yield accum_value
-	if not flag:
 		yield accum_value
 
 red = ireduce(lambda x, y: x + y, [1,2,3,4])
