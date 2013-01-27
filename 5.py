@@ -1,5 +1,5 @@
-from math import sqrt
-eratosthenes = lambda n: [x for x in xrange(2,n) if not any ([y for y in xrange(2,1+int(sqrt(x))) if not x%y])]
+eratosthenes = lambda n: sorted(set(xrange(2, n)).difference(set((p * f) for p in xrange(2, int(n ** 0.5) + 2) for f in xrange(2, (n / p) + 1))))
+
 assert eratosthenes(2) == []
 assert eratosthenes(3) == [2]
 assert eratosthenes(4) == [2,3]
