@@ -1,4 +1,10 @@
-eratosthenes = lambda n: sorted(set(xrange(2, n)).difference(set((p * f) for p in xrange(2, int(n ** 0.5) + 2) for f in xrange(2, (n / p) + 1))))
+eratosthenes = lambda n: sorted(
+                            set(xrange(2, n))
+                                - set(
+                                        (p * f) for p in xrange(2, int(n ** 0.5) + 2)
+                                                    for f in xrange(2, (n / p) + 1)
+                                                        )
+                                                            )
 
 assert eratosthenes(2) == []
 assert eratosthenes(3) == [2]
