@@ -1,6 +1,8 @@
-	
 
-class Operator(object):
+class Operator():
+	'''
+	This operator has lowest priority
+	'''
 	def __init__(self, function, left = None, right = None):
 		self.function = function
 		self.left = left
@@ -16,24 +18,18 @@ class Operator(object):
 		else:
 			self.right = other
 		return Operator(self.function, self.left, self.right)
-	def __lt__(self, other):
-		return self.function(self.left,self.right) < other
-	def __le__(self, other):
-		return self.function(self.left,self.right) <= other
-	def __eq__(self, other):
-		return self.function(self.left,self.right) == other
-	def __ne__(self, other):
-		return self.function(self.left,self.right) != other
-	def __gt__(self, other):
-		return self.function(self.left,self.right) > other
-	def __ge__(self, other)	:
-		return self.function(self.left,self.right) >= other
-	def __str__(self):
-		return str(self.function(self.left,self.right))
 	def __getattr__(self, name):
+		'''
+		If operator dont have method we call - we call results method with this name
+		and Operator object do not exist anymore
+		'''
 		if self.left != None and self.right != None:
-			return self.evaluate().__getattribute__(name)
-
+			return getattr(self.evaluate(), name)
+		else:
+			raise TypeError()
+	def __coerce__(self, other):
+		return
+	
 
 def isSubset(x,y):
 	for item in x:
@@ -41,8 +37,8 @@ def isSubset(x,y):
 			return False
 	return True
 		
-x = Operator(isSubset)
 
+x = Operator(isSubset)
 
 assert ['a','b','e'] |x| ['c','b','a','d'] == False
 assert ['a','b','c'] |x| ['c','b','a','d'] == True
@@ -50,6 +46,8 @@ assert "rts" |x| "string" == True
 
 to = Operator(lambda x, y: range(x,y))
 
+assert (1 |to| 10) * 2 == [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 assert 1 |to| 10 == [1, 2, 3, 4, 5, 6, 7, 8, 9]
+assert 1 | 2 |to| 10 * 2 | 1 == [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 assert 1 | 2 |to| 10 | 1 == [3, 4, 5, 6, 7, 8, 9, 10]
 
